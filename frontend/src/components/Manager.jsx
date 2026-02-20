@@ -213,9 +213,9 @@ const Manager = () => {
           <div className='lg:w-3/4 flex gap-3 mt-3 lg:mt-5 mx-auto flex flex-col lg:flex-row'>
             <input type="text" value={form.username} name='username' onChange={handleChange} placeholder='Enter Username' className='border border-green-500 w-80 lg:w-1/2 h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
 
-            <div className='relative w-1/2 h-10 rounded-full'>
-              <input type="password" ref={passwordRef} value={form.password} name='password' onChange={handleChange} placeholder='Enter Password' className='border border-green-500 w-80 lg:w-full h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
-              <span className='absolute right-4 top-2.5 hover:cursor-pointer' onClick={showPassword}>
+            <div className='relative lg:w-1/2 h-10 rounded-full '>
+              <input type="password" ref={passwordRef} value={form.password} name='password' onChange={handleChange} placeholder='Enter Password' className='border border-green-500 w-80 lg:w-full h-10 rounded-lg pl-4 pr-12  bg-[#0f172a] text-white outline-none placeholder:text-white' />
+              <span className='absolute right-3 lg:right-4 top-2.5 hover:cursor-pointer ' onClick={showPassword}>
                 <img width="20" ref={ref} src="assets/eye.png" alt="" className='filter invert' />
               </span>
             </div>

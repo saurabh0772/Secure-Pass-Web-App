@@ -9,10 +9,25 @@ import { auth } from "express-oauth2-jwt-bearer";
 
 
 const app = express();
-app.use(cors({
-  origin: "https://securepass-pmtmhuszi-saurabh0772s-projects.vercel.app",
-  credentials: true
-}));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://securepass-pmtmhuszi-saurabh0772s-projects.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

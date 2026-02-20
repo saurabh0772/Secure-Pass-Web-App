@@ -53,7 +53,7 @@ const Navbar = () => {
 
 
 
-        <img src="/assets/github.png" alt="" className='w-8 bg-white rounded-full cursor-pointer filer invert' />
+        <a href="https://github.com/saurabh0772/Secure-Pass-Web-App" className='cursor-pointer'><img src="/assets/github.png" alt="" className='w-8 bg-white rounded-full cursor-pointer filer invert' /></a>
       </li>
     </ul>
     </nav >
