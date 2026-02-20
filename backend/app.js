@@ -11,7 +11,7 @@ import { auth } from "express-oauth2-jwt-bearer";
 const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://securepass-git-main-saurabh0772s-projects.vercel.app/"
+  "https://securepass-git-main-saurabh0772s-projects.vercel.app"
 ];
 
 app.use(
