@@ -23,7 +23,7 @@ const Manager = () => {
         const token = await getAccessTokenSilently();
 
         const res = await axios.get(
-          "http://localhost:3000/passwords",
+          `${import.meta.env.VITE_API_URL}/passwords`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -63,7 +63,7 @@ const Manager = () => {
     const token = await getAccessTokenSilently();
 
     const res = await axios.post(
-      "http://localhost:3000/save-pass",
+      `${import.meta.env.VITE_API_URL}/save-pass`,
       form,
       {
         headers: {
@@ -114,7 +114,7 @@ const Manager = () => {
       const token = await getAccessTokenSilently();
 
       await axios.delete(
-        `http://localhost:3000/delete-pass/${item._id}`,
+        `${import.meta.env.VITE_API_URL}/delete-pass/${item._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -145,7 +145,7 @@ const Manager = () => {
       const token = await getAccessTokenSilently();
 
       await axios.delete(
-        `http://localhost:3000/delete-pass/${item._id}`,
+        `${import.meta.env.VITE_API_URL}/delete-pass/${item._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

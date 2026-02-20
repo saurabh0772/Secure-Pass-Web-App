@@ -9,7 +9,9 @@ import { auth } from "express-oauth2-jwt-bearer";
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173' // Adjust this to match your frontend URL
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
