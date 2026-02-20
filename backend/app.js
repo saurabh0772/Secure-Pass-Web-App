@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const checkJwt = auth({
-  audience: 'https://securepass-backend',
-  issuerBaseURL: 'https://dev-7rz6vibgyy1r5v6x.us.auth0.com/',
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_ISSUER,
   tokenSigningAlg: 'RS256'
 });
 

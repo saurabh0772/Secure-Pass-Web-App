@@ -9,13 +9,13 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Auth0Provider
-         domain="dev-7rz6vibgyy1r5v6x.us.auth0.com"
-  clientId="oEODQlo4Xt9vxtp8QsRah2KSyGVOnQNP"
-  authorizationParams={{
-    redirect_uri: window.location.origin,
-    audience: "https://securepass-backend"
-  }}
-  cacheLocation="localstorage"
+        domain={import.meta.env.VITE_AUTH0_DOMAIN}
+        clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE
+        }}
+        cacheLocation="localstorage"
       >
         <App />
       </Auth0Provider>
