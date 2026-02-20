@@ -10,7 +10,7 @@ import { auth } from "express-oauth2-jwt-bearer";
 
 const app = express();
 app.use(cors({
-  origin: "https://securepass-henna.vercel.app",
+  origin: "https://securepass-pmtmhuszi-saurabh0772s-projects.vercel.app",
   credentials: true
 }));
 app.use(express.json());
