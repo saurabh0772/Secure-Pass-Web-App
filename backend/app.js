@@ -10,7 +10,8 @@ import { auth } from "express-oauth2-jwt-bearer";
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173' // Adjust this to match your frontend URL
+  origin: "https://securepass-henna.vercel.app",
+  credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
