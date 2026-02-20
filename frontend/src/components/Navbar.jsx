@@ -6,11 +6,11 @@ const Navbar = () => {
 
   const { 
   loginWithRedirect, 
-  logout,        // 👈 YE ADD KAR
+  logout,       
   isAuthenticated, 
   isLoading 
 } = useAuth0();
-  const navigate = useNavigate();
+  
 
 
 
@@ -18,15 +18,15 @@ const Navbar = () => {
 
 
   return (
-    <nav className='bg-[#0a0f1b] flex justify-between px-20 py-4 text-white'>
-      <div className=' text-3xl'>
+    <nav className='bg-[#0a0f1b] flex justify-between px-4 py-4 md:px-8 xl:px-15  text-white w-full'>
+      <div className=' text-2xl md:text-3xl'>
         <span className=''>&lt;</span>
         Secure
         <span className='text-green-500'>Pass</span>
         <span className=' text-green-500'>/&gt;</span>
       </div>
       <ul className=''>
-        <li className='flex gap-6 '>
+        <li className='flex gap-2 md:gap-4 xl:gap-6 items-center'>
           {/* <a href="#" className='text-gray-200 hover:text-white hover:border-white border border-green-500 text-green-500 rounded-md px-2 py-1' onClick={handleGetStarted}>Login</a> */}
 
           {isLoading ? null : isAuthenticated ? (
@@ -38,16 +38,16 @@ const Navbar = () => {
                   }
                 })
               }
-          className="text-gray-200 hover:text-white hover:border-white border border-green-500 text-green-500 rounded-md px-2 py-1"
+          className="text-md md:text-xl xl:text-xl text-gray-200 hover:text-white hover:border-white border border-green-500 text-green-500 rounded-md px-2 py-1"
             >
-          Logout
+          <h1>LogOut</h1>
         </button>
         ) : (
         <button
           onClick={() => loginWithRedirect()}
-          className="text-gray-200 hover:text-white hover:border-white border border-green-500 text-green-500 rounded-md px-2 py-1"
+          className="text-md md:text-lg xl:text-xl text-gray-200 hover:text-white hover:border-white border border-green-500 text-green-500 rounded-md px-2 py-1"
         >
-          Login
+          <h1>Login</h1>
         </button>
           )}
 

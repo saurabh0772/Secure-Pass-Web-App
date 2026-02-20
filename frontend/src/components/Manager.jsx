@@ -12,38 +12,38 @@ const Manager = () => {
   const passwordRef = useRef();
   const [form, setForm] = useState({ site: "", username: "", password: "" });
   const [passwordArray, setPasswordArray] = useState([]);
-  const {isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
 
-  
+
 
   useEffect(() => {
 
-  const fetchPasswords = async () => {
-    try {
-      const token = await getAccessTokenSilently();
+    const fetchPasswords = async () => {
+      try {
+        const token = await getAccessTokenSilently();
 
-      const res = await axios.get(
-        "http://localhost:3000/passwords",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
+        const res = await axios.get(
+          "http://localhost:3000/passwords",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
-      );
+        );
 
-      console.log("FETCHED:", res.data);
-      setPasswordArray(res.data);
+        console.log("FETCHED:", res.data);
+        setPasswordArray(res.data);
 
-    } catch (error) {
-      console.log("Fetch Error:", error);
+      } catch (error) {
+        console.log("Fetch Error:", error);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchPasswords();
     }
-  };
 
-  if (isAuthenticated) {
-    fetchPasswords();
-  }
-
-}, [isAuthenticated]);
+  }, [isAuthenticated]);
 
 
   const showPassword = () => {
@@ -57,23 +57,23 @@ const Manager = () => {
   }
 
   const savePassword = async () => {
-    
+
     // console.log(form);
 
     const token = await getAccessTokenSilently();
 
-const res = await axios.post(
-  "http://localhost:3000/save-pass",
-  form,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-);
+    const res = await axios.post(
+      "http://localhost:3000/save-pass",
+      form,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
-// Sirf success ke baad update karo
-setPasswordArray([...passwordArray, res.data]);
+    // Sirf success ke baad update karo
+    setPasswordArray([...passwordArray, res.data]);
 
     setForm({ site: "", username: "", password: "" });
     toast('Password saved !', {
@@ -107,8 +107,32 @@ setPasswordArray([...passwordArray, res.data]);
     navigator.clipboard.writeText(text);
   }
 
-  const editPasswords = (item) => {
+  const editPasswords = async (item) => {
     setForm(item);
+
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios.delete(
+        `http://localhost:3000/delete-pass/${item._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      // UI update
+      const newArray = passwordArray.filter(
+        (password) => password._id !== item._id
+      );
+
+      setPasswordArray(newArray);
+
+    } catch (error) {
+      console.log(error);
+    }
+
     let newArray = passwordArray.filter((password) => {
       return password.site !== item.site || password.username !== item.username || password.password !== item.password;
     });
@@ -120,14 +144,14 @@ setPasswordArray([...passwordArray, res.data]);
     try {
       const token = await getAccessTokenSilently();
 
-await axios.delete(
-  `http://localhost:3000/delete-pass/${item._id}`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-);
+      await axios.delete(
+        `http://localhost:3000/delete-pass/${item._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
 
       // UI update
       const newArray = passwordArray.filter(
@@ -169,9 +193,9 @@ await axios.delete(
       />
 
 
-      <div className='border border-white w-250 mx-auto pb-10 rounded-lg bg-gray-900'>
+      <div className='border border-white w-90 lg:w-250 mx-auto pb-10 rounded-lg bg-gray-900'>
         <div className=' pt-10 mx-auto flex flex-col items-center text-gray-400'>
-          <div className=' text-3xl text-white'>
+          <div className=' text-2xl lg:text-3xl text-white'>
             <span className=''>&lt;</span>
             Secure
             <span className='text-green-500'>Pass</span>
@@ -183,14 +207,14 @@ await axios.delete(
           </div>
         </div>
 
-        <div className='  w-3/4 h-auto mx-auto mt-2 flex flex-col items-center justify-center rounded-lg'>
+        <div className='lg:w-3/4 h-auto mx-auto mt-2 flex flex-col items-center justify-center rounded-lg '>
 
-          <input type="text" value={form.site} name='site' onChange={handleChange} placeholder='Enter website URL' className='border border-green-500 w-3/4 h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
-          <div className='w-3/4 flex gap-3 mt-5 mx-auto'>
-            <input type="text" value={form.username} name='username' onChange={handleChange} placeholder='Enter Username' className='border border-green-500 w-1/2 h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
+          <input type="text" value={form.site} name='site' onChange={handleChange} placeholder='Enter website URL' className='border border-green-500 w-80 lg:w-3/4 h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
+          <div className='lg:w-3/4 flex gap-3 mt-3 lg:mt-5 mx-auto flex flex-col lg:flex-row'>
+            <input type="text" value={form.username} name='username' onChange={handleChange} placeholder='Enter Username' className='border border-green-500 w-80 lg:w-1/2 h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
 
             <div className='relative w-1/2 h-10 rounded-full'>
-              <input type="password" ref={passwordRef} value={form.password} name='password' onChange={handleChange} placeholder='Enter Password' className='border border-green-500 w-full h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
+              <input type="password" ref={passwordRef} value={form.password} name='password' onChange={handleChange} placeholder='Enter Password' className='border border-green-500 w-80 lg:w-full h-10 rounded-lg px-4 bg-[#0f172a] text-white outline-none placeholder:text-white' />
               <span className='absolute right-4 top-2.5 hover:cursor-pointer' onClick={showPassword}>
                 <img width="20" ref={ref} src="assets/eye.png" alt="" className='filter invert' />
               </span>
@@ -209,17 +233,17 @@ await axios.delete(
         </div>
       </div>
 
-      <div className='mt-10 w-3/4 mx-auto flex flex-col items-center justify-center rounded-lg gap-4 pb-50 text-white'>
+      <div className=' w-90 mt-10 lg:w-3/4 mx-auto flex flex-col items-center justify-center rounded-lg gap-4 pb-50 text-white '>
 
         <div className='w-3/4'><h2 className='font-bold'>Your Passwords :</h2></div>
 
-        {passwordArray.length === 0 && <div className='text-center text-gray-500'>No passwords saved yet.</div>}
+        {passwordArray.length === 0 && <div className='text-center text-gray-500 '>No passwords saved yet.</div>}
 
         {passwordArray.length > 0 &&
-          <table className="table-auto w-250 mx-auto rounded-md overflow-hidden ">
+          <table className="table-auto w-90 lg:w-240 mx-auto rounded-md overflow-hidden  ">
             <thead className='bg-[#1e293b]'>
               <tr>
-                <th>Site</th>
+                <th >Site</th>
                 <th>Username</th>
                 <th>Password</th>
                 <th>Action</th>
@@ -229,9 +253,9 @@ await axios.delete(
               {passwordArray.map((item) => {
                 return <tr key={item._id}>
 
-                  <td className='text-center w-70 border-2 border-slate-950 p-2 '>
-                    <div className='flex justify-center items-center'>
-                      <div className='max-w-50 overflow-x-auto whitespace-nowrap scrollbar-hide'>
+                  <td className='text-center lg:w-70 border-2 border-slate-950 p-1 lg:p-2 '>
+                    <div className='flex justify-center items-center '>
+                      <div className='w-15 lg:max-w-50 overflow-x-auto whitespace-nowrap scrollbar-hide'>
                         {item.site}
                       </div>
                       <div className='cursor-pointer' onClick={() => { copyText(item.site) }}>
@@ -244,9 +268,9 @@ await axios.delete(
                       </div>
                     </div>
                   </td>
-                  <td className='text-center w-70 border-2 border-slate-950 p-2 '>
+                  <td className='text-center lg:w-70 border-2 border-slate-950 p-1 lg:p-2 '>
                     <div className='flex justify-center items-center'>
-                      <div className='max-w-50 overflow-x-auto whitespace-nowrap scrollbar-hide'>
+                      <div className='w-15 lg:max-w-50 overflow-x-auto whitespace-nowrap scrollbar-hide'>
                         {item.username}
                       </div>
                       <div className='cursor-pointer' onClick={() => { copyText(item.username) }}>
@@ -259,9 +283,9 @@ await axios.delete(
                       </div>
                     </div>
                   </td>
-                  <td className='text-center w-70 border-2 border-slate-950 p-2 '>
+                  <td className='text-center lg:w-70 border-2 border-slate-950 p-1 lg:p-2 '>
                     <div className='flex justify-center items-center'>
-                      <div className='max-w-50 overflow-x-auto whitespace-nowrap scrollbar-hide'>
+                      <div className='w-15 lg:max-w-50 overflow-x-auto whitespace-nowrap scrollbar-hide'>
                         {item.password}
                       </div>
                       <div className='cursor-pointer' onClick={() => { copyText(item.password) }}>
@@ -274,7 +298,7 @@ await axios.delete(
                       </div>
                     </div>
                   </td>
-                  <td className='text-center w-40 border-2 border-slate-950 p-2 '>
+                  <td className='text-center lg:w-40 border-2 border-slate-950 p-2 '>
                     <div className='flex items-center justify-center gap-3'>
                       <div onClick={() => { editPasswords(item) }}>
                         <lord-icon className='w-6 h-6 cursor-pointer'
