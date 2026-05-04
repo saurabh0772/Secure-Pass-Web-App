@@ -53,6 +53,9 @@ app.post('/save-pass', checkJwt, async (req, res) => {
             userId: req.auth.payload.sub
         }); 
 
+      console.log("BODY:", req.body);
+console.log("AUTH:", req.auth);
+
         const savedPassword = await newPassword.save();
 
 res.status(200).json(savedPassword);
