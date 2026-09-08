@@ -77,7 +77,7 @@ SecurePass/
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/Secure-Pass-Web-App.git
+(https://github.com/saurabh0772/Secure-Pass-Web-App.git)
 cd Secure-Pass-Web-App
 
 2️⃣ Backend Setup
